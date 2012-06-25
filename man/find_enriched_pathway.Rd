@@ -1,0 +1,44 @@
+\name{find_enriched_pathway}
+\alias{find_enriched_pathway}
+\title{find_enriched_pathway}
+\usage{
+  find_enriched_pathway(gene, specis = "hsa",
+    returned_pvalue = 0.05, returned_genenumber = 5)
+}
+\arguments{
+  \item{gene}{a numeric matrix}
+
+  \item{returned_pvalue}{the minimum p value for enriched
+  pathways}
+
+  \item{returned_genenumber}{the minimum number of
+  annotated genes for enriched pathways}
+
+  \item{specis}{the specis id in KEGG database, 'hsa' means
+  human, 'mmu' means mouse, 'rno' means rat, etc}
+}
+\value{
+  a list with two parts \item{name stastic}{description a
+  matirx containing the pathway IDs of enriched pathways,
+  and their names, p values, number of annotated
+  genes}\item{name detail}{description a list with the
+  genes annotated for each pathway}
+}
+\description{
+  The function will map the genes in KEGG pathway database,
+  and then hypergegeometric tests would be used to estimate
+  the significance of enrichment for each pathway
+}
+\details{
+  Only the pathways with p value <= returned_pvalue in
+  hypergegeometric tests and number of annotated genes >=
+  returned_genenumber would be taken as enriched and
+  returned.
+}
+\examples{
+data(pho_sites_count)
+#the 300 genes with most phospholation sites quantified
+genes<-names(rev(sort(pho_sites_count[,1]))[1:300])
+pho_KEGGresult<-find_enriched_pathway(genes,specis='hsa')
+}
+

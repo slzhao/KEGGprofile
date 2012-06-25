@@ -1,0 +1,18 @@
+\docType{data}
+\name{pro_pho_expr}
+\alias{pro_pho_expr}
+\title{expression profiles in proteome and phosphoproteome}
+\source{
+  Olsen, J.V., et al. (2010) Quantitative phosphoproteomics
+  reveals widespread full phosphorylation site occupancy
+  during mitosis, Sci Signal, 3, ra3.
+}
+\description{
+  This data set is from a previously published data of
+  proteome and phosphoproteome analysis in different cell
+  phase. The column 1-6 are proteome data and column 7-12
+  are phosphoproteome data in this data.frame. The 6 time
+  points are G1, G1/S, Early S, Late S, G2, Mitosis.
+}
+\keyword{datasets}
+

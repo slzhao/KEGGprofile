@@ -1,0 +1,7 @@
+export(col_by_value)
+export(download_KEGGfile)
+export(find_enriched_pathway)
+export(parse_XMLfile)
+export(plot_pathway)
+export(plot_profile)
+importMethodsFrom(AnnotationDbi,as.list)

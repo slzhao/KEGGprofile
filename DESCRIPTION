@@ -1,0 +1,19 @@
+Package: KEGGprofile
+Type: Package
+Title: KEGGprofile: an annotation and visualization package for
+        multi-types and multi-groups expression data in KEGG pathway R
+        and Bioconductor
+Version: 0.1.2
+Date: 2012-3-21
+Author: Shilin Zhao
+Maintainer: Shilin Zhao <slzhao@sibs.ac.cn>
+Description: KEGGprofile is package that maps gene expression profile data to
+    KEGG pathway. The multi-types and multi-groups expression data can be
+    visualized in one pathway map.
+License: GPL (>= 2)
+LazyLoad: yes
+Depends: XML, png, TeachingDemos, KEGG.db
+Imports: AnnotationDbi
+biocViews: Pathways
+Collate: 'KEGG_function.R'
+Packaged: 2012-05-26 07:44:57 UTC; Administrator

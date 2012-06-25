@@ -1,0 +1,39 @@
+\name{col_by_value}
+\alias{col_by_value}
+\title{col_by_value}
+\usage{
+  col_by_value(x, col, range = NA, breaks = NA)
+}
+\arguments{
+  \item{x}{a numeric matrix}
+
+  \item{col}{colors used to represent the values. (See also
+  'Details')}
+
+  \item{range}{values out of the range will be modified to
+  in the range.}
+
+  \item{breaks}{a numeric vector of three or more cut
+  points giving the number of intervals into which x is to
+  be cut. See also 'Details'}
+}
+\value{
+  a matrix equal to x, but the values were instead by
+  colors.
+}
+\description{
+  The function will transfer a numeric matrix into a matrix
+  of colors, in which the colors represent the values of
+  numeric matrix
+}
+\details{
+  A colorbar would also be ploted. The returned colors of
+  the function can be used in function plot_profile. if
+  breaks not equal to NA, col must have the same length
+  with breaks-1.
+}
+\examples{
+data(pho_sites_count)
+col<-col_by_value(pho_sites_count,col=colorRampPalette(c('white','khaki2'))(4),breaks=c(0,1,4,10,Inf))
+}
+
