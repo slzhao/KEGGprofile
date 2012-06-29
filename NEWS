@@ -1,3 +1,15 @@
+2012-06-29
+KEGGprofile 0.99.1: Add the param lwd when type='lines' 
+
+2012-06-28
+KEGGprofile 0.99.0: Improvement in the description of this package. Add notes for users in plot_profile function
+
+2012-05-12
+KEGGprofile 0.1.2: Improvement in the codes of vignette file and re-submit to bioconductor as the final version
+
+2012-03-22
+KEGGprofile 0.1.0: Submit to bioconductor
+
 2012-03-21
 KEGGprofile 0.0.7: Finish the vignette file
 
