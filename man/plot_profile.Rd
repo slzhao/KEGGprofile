@@ -7,7 +7,8 @@
     border_col = "grey", text_cex = 0.25, magnify = 1,
     type = c("lines", "bg"), pathway_min = 5,
     genes_kept = c("foldchange", "first", "random", "var", "abs"),
-    specis = "hsa", database_dir = getwd(), max_dist)
+    specis = "hsa", database_dir = getwd(), max_dist,
+    lwd = 1.2)
 }
 \arguments{
   \item{gene_expr}{the matrix for gene expression,
@@ -45,7 +46,7 @@
   rectangles}
 
   \item{type}{the type of pathway map visulization, could
-  be 'bg' or 'lines'. Default is 'bg'. See also 'Details'.}
+  be 'bg' or 'lines'. Default is 'bg'. See also 'Details'}
 
   \item{pathway_min}{The pathways with number of annotated
   genes less than pathway_min would be ignored}
@@ -56,7 +57,7 @@
   largest fold changes. 'first' kept the first gene.
   'random' chosed gene random. 'var' kept the gene with
   largest variation. 'abs' kept the gene with largest
-  absolute value.}
+  absolute value}
 
   \item{max_dist}{The expression changes that represented
   by the distance from the bottom to the top of gene
@@ -66,6 +67,8 @@
   from the maximum changes of genes in this pathway by
   default. If max_dist=NA, then the lines would be plotted
   from top to bottom in each gene rectangle}
+
+  \item{lwd}{The line width when type='lines'}
 
   \item{specis}{the specis id in KEGG database, 'hsa' means
   human, 'mmu' means mouse, 'rno' means rat, etc}
