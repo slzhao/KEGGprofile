@@ -1,6 +1,6 @@
 ###############################################################################
-# Data: 2012-06-26
-# Author: Shilin Zhao (slzhao@sibs.ac.cn)
+# Data: 2012-09-19
+# Author: Shilin Zhao (zhaoshilin@gmail.com)
 ###############################################################################
 
 #' @importMethodsFrom AnnotationDbi as.list
@@ -125,6 +125,9 @@ parse_XMLfile<-function(pathway_id,specis,database_dir=getwd()) {
 plot_profile<-function(gene_expr,pathway_name,KEGG_database,groups,bg_col="white",text_col="black",line_col,border_col="grey",text_cex=0.25,magnify=1,type=c('lines','bg'),pathway_min=5,genes_kept=c('foldchange','first','random','var','abs'),specis='hsa',database_dir=getwd(),max_dist,lwd=1.2) {
 	type <- if (missing(type)) 
 				"lines" else match.arg(type)
+	if (type == "lines" & ncol(gene_expr)<=1) {
+		print("When type=='lines', You should have more than one time points")
+	}
 	genes_kept <- if (missing(genes_kept)) 
 				"foldchange" else match.arg(genes_kept)
 	if (missing(groups)) groups<-rep(1,ncol(gene_expr))
@@ -170,8 +173,8 @@ plot_profile<-function(gene_expr,pathway_name,KEGG_database,groups,bg_col="white
 	result_genes<-as.data.frame(KEGG_database[which(KEGG_database[,1] %in% genes),],stringsAsFactors=F)
 	colnames(result_genes)<-c("genes","x","y","width","height","name")
 	result_genes<-transform(result_genes, x = as.numeric(x), y = as.numeric(y),width = as.numeric(width),height = as.numeric(height))
-	if (missing(max_dist)) {
-		max_dist<-max(apply(gene_expr[result_genes[,1],],1,function(x) range(x,na.rm=T)[2]-range(x,na.rm=T)[1]))
+	if (missing(max_dist) & type == "lines") {
+		max_dist<-max(apply(matrix(gene_expr[result_genes[,1],]),1,function(x) range(x,na.rm=T)[2]-range(x,na.rm=T)[1]))
 	}
 	findUnique<-apply(result_genes[,2:3],1,function(x) paste(x,collapse=" "))
 	temp<-split(as.data.frame(result_genes,stringsAsFactors=F),findUnique)
@@ -179,15 +182,15 @@ plot_profile<-function(gene_expr,pathway_name,KEGG_database,groups,bg_col="white
 		#for genes in same location, only keep one
 		if (length(temp[[xx]][,1])>1) {
 			if (genes_kept=="foldchange") {
-				ChosedGene<-names(which.max(apply(gene_expr[temp[[xx]][,1],],1,function(x) range(x,na.rm=T)[2]-range(x,na.rm=T)[1])))
+				ChosedGene<-names(which.max(apply(data.frame(gene_expr[temp[[xx]][,1],]),1,function(x) range(x,na.rm=T)[2]-range(x,na.rm=T)[1])))
 			} else if (genes_kept=="first") {
 				ChosedGene<-temp[[xx]][1,1]
 			} else if (genes_kept=="random") {
 				ChosedGene<-sample(temp[[xx]][,1],1)
 			} else if (genes_kept=="var") {
-				ChosedGene<-names(which.max(apply(gene_expr[temp[[xx]][,1],],1,var)))
+				ChosedGene<-names(which.max(apply(data.frame(gene_expr[temp[[xx]][,1],]),1,var)))
 			} else if (genes_kept=="abs") {
-				ChosedGene<-names(which.max(apply(gene_expr[temp[[xx]][,1],],1,function(x) max(abs(x)))))
+				ChosedGene<-names(which.max(apply(data.frame(gene_expr[temp[[xx]][,1],]),1,function(x) max(abs(x)))))
 			}
 			ChosedGene<-temp[[xx]][which(temp[[xx]][,1]==ChosedGene),]
 		} else {ChosedGene<-temp[[xx]]}	
