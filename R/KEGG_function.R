@@ -182,15 +182,15 @@ plot_profile<-function(gene_expr,pathway_name,KEGG_database,groups,bg_col="white
 		#for genes in same location, only keep one
 		if (length(temp[[xx]][,1])>1) {
 			if (genes_kept=="foldchange") {
-				ChosedGene<-names(which.max(apply(data.frame(gene_expr[temp[[xx]][,1],]),1,function(x) range(x,na.rm=T)[2]-range(x,na.rm=T)[1])))
+				ChosedGene<-temp[[xx]][which.max(apply(data.frame(gene_expr[temp[[xx]][,1],]),1,function(x) range(x,na.rm=T)[2]-range(x,na.rm=T)[1])),1]
 			} else if (genes_kept=="first") {
 				ChosedGene<-temp[[xx]][1,1]
 			} else if (genes_kept=="random") {
 				ChosedGene<-sample(temp[[xx]][,1],1)
 			} else if (genes_kept=="var") {
-				ChosedGene<-names(which.max(apply(data.frame(gene_expr[temp[[xx]][,1],]),1,var)))
+				ChosedGene<-temp[[xx]][which.max(apply(data.frame(gene_expr[temp[[xx]][,1],]),1,var)),1]
 			} else if (genes_kept=="abs") {
-				ChosedGene<-names(which.max(apply(data.frame(gene_expr[temp[[xx]][,1],]),1,function(x) max(abs(x)))))
+				ChosedGene<-temp[[xx]][which.max(apply(data.frame(gene_expr[temp[[xx]][,1],]),1,function(x) max(abs(x)))),1]
 			}
 			ChosedGene<-temp[[xx]][which(temp[[xx]][,1]==ChosedGene),]
 		} else {ChosedGene<-temp[[xx]]}	
