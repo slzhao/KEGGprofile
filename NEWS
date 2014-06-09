@@ -1,59 +1,47 @@
-CHANGES IN VERSION 0.99.2
--------------------------
+2014-06-08
+KEGGprofile 1.7.4: Improvement for documents and examples.
 
-    o Improvement in processing expression matrix with only one time point
+2014-03-30
+KEGGprofile 1.7.3: Improvement for the web interface.
 
-CHANGES IN VERSION 0.99.1
---------------------------
+2014-03-18
+KEGGprofile 1.7.2: New function plot_pathway_cor: Caculating correlations between groups in each pathway and comparing with the correlations for other genes.
 
-    o Add the param lwd when type='lines' 
+2014-02-10
+KEGGprofile 1.7.1: Compound data was also supported; The parameters were modified for web interface.
 
-CHANGES IN VERSION 0.99.0
---------------------------
+2012-09-19
+KEGGprofile 0.99.2: Improvement in processing expression matrix with only one time point
 
-    o Improvement in the description of this package. Add notes for users in plot_profile function
+2012-06-29
+KEGGprofile 0.99.1: Add the param lwd when type='lines' 
 
-CHANGES IN VERSION 0.1.2
-------------------------
+2012-06-28
+KEGGprofile 0.99.0: Improvement in the description of this package. Add notes for users in plot_profile function
 
-    o Improvement in the codes of vignette file and re-submit to bioconductor as the final version
+2012-05-12
+KEGGprofile 0.1.2: Improvement in the codes of vignette file and re-submit to bioconductor as the final version
 
-CHANGES IN VERSION 0.1.0
-------------------------
+2012-03-22
+KEGGprofile 0.1.0: Submit to bioconductor
 
-    o Submit to bioconductor
+2012-03-21
+KEGGprofile 0.0.7: Finish the vignette file
 
-CHANGES IN VERSION 0.0.7
-------------------------
+2012-03-20
+KEGGprofile 0.0.6: Improvement in help file and example source
 
-    o Finish the vignette file
+2012-03-08
+KEGGprofile 0.0.5: Add return value for plot_pathway function; Release to my colleague
 
-CHANGES IN VERSION 0.0.6
-------------------------
+2012-03-04
+KEGGprofile 0.0.4: Finish help files and example source
 
-    o Improvement in help file and example source
+2012-03-03
+KEGGprofile 0.0.3: Add example data files
 
-CHANGES IN VERSION 0.0.5
-------------------------
+2012-02-29
+KEGGprofile 0.0.2: Improvement in figure details
 
-    o Add return value for plot_pathway function; Release to my colleague
-
-
-CHANGES IN VERSION 0.0.4
-------------------------
-
-    o Finish help files and example source
-
-CHANGES IN VERSION 0.0.3
-------------------------
-
-    o Add example data files
-
-CHANGES IN VERSION 0.0.2
-------------------------
-    o Improvement in figure details
-
-CHANGES IN VERSION 0.0.1
-------------------------
-
-    o Build 'KEGGprofile' package by CMD Install and CMD check
+2012-02-26
+KEGGprofile 0.0.1: Build 'KEGGprofile' package by CMD Install and CMD check
