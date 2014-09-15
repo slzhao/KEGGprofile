@@ -3,8 +3,9 @@
 \alias{find_enriched_pathway}
 \title{find_enriched_pathway}
 \usage{
-find_enriched_pathway(gene, specis = "hsa", returned_pvalue = 0.01,
-  returned_adjpvalue = 0.05, returned_genenumber = 5)
+find_enriched_pathway(gene, species = "hsa", returned_pvalue = 0.01,
+  returned_adjpvalue = 0.05, returned_genenumber = 5,
+  download_latest = FALSE)
 }
 \arguments{
 \item{gene}{a numeric matrix}
@@ -15,7 +16,9 @@ find_enriched_pathway(gene, specis = "hsa", returned_pvalue = 0.01,
 
 \item{returned_genenumber}{the minimum number of annotated genes for enriched pathways}
 
-\item{specis}{the specis id in KEGG database, 'hsa' means human, 'mmu' means mouse, 'rno' means rat, etc}
+\item{download_latest}{logical. Indicate if the function will download the latest pathway/gene link from KEGG website. As the KEGG.db package was not updated for a long time due to the KEGG policy change, we provided this parameter so that the users could get the latest KEGG database.}
+
+\item{species}{the species id in KEGG database, 'hsa' means human, 'mmu' means mouse, 'rno' means rat, etc}
 }
 \value{
 a list with two parts \item{name stastic}{description a matirx containing the pathway IDs of enriched pathways, and their names, p values, number of annotated genes}\item{name detail}{description a list with the genes annotated for each pathway}
@@ -30,6 +33,6 @@ Only the pathways with p value <= returned_pvalue in hypergegeometric tests and 
 data(pho_sites_count)
 #the 300 genes with most phospholation sites quantified
 genes<-names(rev(sort(pho_sites_count[,1]))[1:300])
-pho_KEGGresult<-find_enriched_pathway(genes,specis='hsa')
+pho_KEGGresult<-find_enriched_pathway(genes,species='hsa')
 }
 

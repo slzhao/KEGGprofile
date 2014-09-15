@@ -1,32 +1,23 @@
-%% LyX 2.0.3 created this file.  For more info, see http://www.lyx.org/.
-%% Do not edit unless you really know what you are doing.
-\documentclass[english,noae]{article}
-\usepackage[T1]{fontenc}
-\usepackage[latin9]{inputenc}
-\usepackage[a4paper]{geometry}
-\geometry{verbose,tmargin=4cm,bmargin=4cm,lmargin=3cm,rmargin=3cm}
-\usepackage{babel}
-\usepackage[unicode=true]
- {hyperref}
-\usepackage{breakurl}
-
-\makeatletter
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
-<<echo=F>>=
-  if(exists(".orig.enc")) options(encoding = .orig.enc)
-@
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
 % \VignetteIndexEntry{KEGGprofile: Application Examples}
 % \VignettePackage{KEGGprofile}
+\documentclass[12pt]{article}
+\textwidth 6.75in
+\textheight 9.5in
+\topmargin -.875in
+\oddsidemargin -.06in
+\evensidemargin -.06in
 
-\makeatother
+\usepackage{hyperref}
+
+\hypersetup{
+    colorlinks=true, %set true if you want colored links
+    linktoc=all,     %set to all if you want both sections and subsections linked
+    linkcolor=blue,  %choose some color if you want links to stand out
+}
 
 \begin{document}
-\SweaveOpts{prefix=TRUE,prefix.string=sweave-prefix,keep.source=F}
-
-
 \title{KEGGprofile: Application Examples}
+\author{Shilin Zhao}
 \maketitle
 \begin{abstract}
 Abstract: In this vignette, we demonstrate the application of KEGGprofile
@@ -97,12 +88,13 @@ analysis in different cell phase was taken as an example\cite{1}.
 We have prepared an example data in the data directory. Then it can
 be import into R environment with:
 
-<<load-the-data,eval=T>>=
+<<load-the-data, tidy=T,cache=TRUE>>=
 library(KEGGprofile)
 data(pro_pho_expr)
 data(pho_sites_count)
 ls()
 colnames(pro_pho_expr)
+pro_pho_expr[1:3,1:4]
 @
 
 The pro\_pho\_expr is a data.frame with expression profiles. The column
@@ -110,8 +102,13 @@ The pro\_pho\_expr is a data.frame with expression profiles. The column
 6 time points are G1, G1/S, Early S, Late S, G2, Mitosis. For the
 phosphorylation sites mapping to the same gene, the one with largest
 variation in 6 time points are kept. The pho\_sites\_count is a data.frame
-with number of phosphorylation sites quantified for each gene. Note
-the NCBI gene IDs should be row.names of all the data.frame.
+with number of phosphorylation sites quantified for each gene. 
+
+Here the NCBI gene IDs should be row.names of all the data.frame. If your expression data is not in NCBI gene IDs, you need to first convert it. We provided a function called 'convertId' to do it.
+
+<<convertIdExample, tidy=T,cache=TRUE>>=
+example(convertId)
+@
 
 Besides, The package requires original KEGG pathway maps as backgrounds
 and KGML (KEGG XML) fi{}les to extract the gene locations in the pathway
@@ -120,14 +117,13 @@ and we also provide a function called \textquoteleft{}download\_KEGGfile\textquo
 to do so. Now download the pathway map and KGML file for human pathway
 '04110' to the work directory:
 
-<<download_needed_files,eval=T>>=
-download_KEGGfile(pathway_id="04110",specis='hsa')
+<<download_needed_files,tidy=T,cache=TRUE>>=
+download_KEGGfile(pathway_id="04110",species='hsa')
 @
 
 Here the pathway\_id could be set as \textquoteleft{}all\textquoteright{},
 and then the entire pathway ids for human would be extracted from
 the KEGG.db package and the related files would be downloaded.
-
 
 \subsection{Find enriched pathways}
 
@@ -141,21 +137,27 @@ tests were used to estimate the significance of enrichment. Besides,
 a criterion for number of annotated genes in the pathway could also
 be used for pathway selection.
 
+There is a very important parameter 'download\_latest' in 'find\_enriched\_pathway' function. As the KEGG.db package was only updated until 2012, we can download the lateset genes and pathways links from KEGG database when 'download\_latest' was set as TRUE. It is very important when the users were interested in some non model organisms which were imported into KEGG after 2012.
+
 Here we used the proteins highly phosphorylated as candidates for
 annotation. The number of phosphorylation sites quantified larger
 than 10 was set as a criterion.
 
-<<find-enriched-pathways,eval=T>>=
+<<find-enriched-pathways,tidy=T,eval=TRUE,cache=TRUE>>=
 genes<-row.names(pho_sites_count)[which(pho_sites_count>=10)]
-pho_KEGGresult<-find_enriched_pathway(genes,specis='hsa')
+pho_KEGGresult<-find_enriched_pathway(genes,species='hsa')
 pho_KEGGresult[[1]][,c(1,5)]
 @
 
-Totally 11 pathways were found to be enriched in these highly phosphorylated
-proteins. As the example data here was from an analysis in different
+Then we compared the correlations between proteins and phospholations for these enriched in highly phosphorylated proteins pathways.
+
+<<pathways_cprrelation,tidy=T,eval=TRUE,cache=TRUE>>=
+plot_pathway_cor(gene_expr=pro_pho_expr,kegg_enriched_pathway=pho_KEGGresult)
+@
+
+As the example data here was from an research in different
 cell phase, the Cell cycle pathway (pathway id 04110) was further
 visualized.
-
 
 \subsection{Visualization of expression profile on KEGG maps}
 
@@ -178,7 +180,8 @@ use ``plot\_profile'' function to visualiz the gene expression profile
 in the KEGG pathway. A pathway map named 'hsa04110\_profile\_bg.png'
 would be generated at the working directory.
 
-<<Visualization-bg,eval=T>>=
+
+<<Visualization-bg,tidy=T,fig.keep='none',eval=TRUE,cache=TRUE>>=
 ## the phosphoproteome data
 pho_expr<-pro_pho_expr[,7:12]
 temp<-apply(pho_expr,1,function(x) length(which(is.na(x))))
@@ -186,8 +189,9 @@ pho_expr<-pho_expr[which(temp==0),]
 ## transform the expression difference into specific color
 col<-col_by_value(pho_expr,col=colorRampPalette(c('green','black','red'))(1024),range=c(-6,6))
 ## visualization by method 'bg'
-temp<-plot_pathway(pho_expr,type="bg",bg_col=col,text_col="white",magnify=1.2,specis='hsa',database_dir=system.file("extdata",package="KEGGprofile"),pathway_id="04110")
+temp<-plot_pathway(pho_expr,type="bg",bg_col=col,text_col="white",magnify=1.2,species='hsa',database_dir=system.file("extdata",package="KEGGprofile"),pathway_id="04110")
 @
+
 
 The second method plots lines with different colors in the gene polygon
 to represent different samples or different types of data. The dynamic
@@ -204,11 +208,12 @@ Then the ``plot\_profile'' function was performed and a pathway
 map named 'hsa04110\_profile\_lines.png' would be generated at the
 working directory.
 
-<<Visualization-lines,eval=T>>=
+<<Visualization-lines,tidy=T,fig.keep='none',eval=TRUE,cache=TRUE>>=
 ## transform the number of phosphorylation sites into specific color
 col<-col_by_value(pho_sites_count,col=colorRampPalette(c('white','khaki2'))(4),breaks=c(0,1,4,10,Inf)) ## visualization by method 'lines'
-temp<-plot_pathway(pro_pho_expr,type="lines",bg_col=col,line_col=c("brown1","seagreen3"),groups=c(rep("Proteome",6),rep("Phosphoproteome",6)),magnify=1.2,specis='hsa',database_dir=system.file("extdata",package="KEGGprofile"),pathway_id="04110",max_dist=5)
+temp<-plot_pathway(pro_pho_expr,type="lines",bg_col=col,line_col=c("brown1","seagreen3"),groups=c(rep("Proteome",6),rep("Phosphoproteome",6)),magnify=1.2,species='hsa',database_dir=system.file("extdata",package="KEGGprofile"),pathway_id="04110",max_dist=5)
 @
+
 
 In this section, we just used the background colors of gene polygon
 to represent the number of phosphorylation sites. In fact, the colors
@@ -216,6 +221,7 @@ for gene name (text\_col) and gene polygon border (border\_col) could
 also be determined by function 'col\_by\_value' and represent some
 other important biological information, such as subcellular locations,
 correlation between samples.
+Here we just demonstrated the application of gene expression data. In fact Compound data was also supported by KEGGprofile. You can see the examples in 'plot\_pathway' function for more details.
 
 
 \section{More details}
@@ -230,7 +236,9 @@ file to get a matrix containing the genes in this pathway, and their
 names, locations etc. At last, the function 'plot\_profile' would
 be used to generate the pathway map.
 
+
 \bibliographystyle{plain}
 \addcontentsline{toc}{section}{\refname}\bibliography{Ref}
+
 
 \end{document}

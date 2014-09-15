@@ -118,7 +118,7 @@ to do so. Now download the pathway map and KGML file for human pathway
 '04110' to the work directory:
 
 <<download_needed_files,tidy=T,cache=TRUE>>=
-download_KEGGfile(pathway_id="04110",specis='hsa')
+download_KEGGfile(pathway_id="04110",species='hsa')
 @
 
 Here the pathway\_id could be set as \textquoteleft{}all\textquoteright{},
@@ -137,13 +137,15 @@ tests were used to estimate the significance of enrichment. Besides,
 a criterion for number of annotated genes in the pathway could also
 be used for pathway selection.
 
+There is a very important parameter 'download\_latest' in 'find\_enriched\_pathway' function. As the KEGG.db package was only updated until 2012, we can download the lateset genes and pathways links from KEGG database when 'download\_latest' was set as TRUE. It is very important when the users were interested in some non model organisms which were imported into KEGG after 2012.
+
 Here we used the proteins highly phosphorylated as candidates for
 annotation. The number of phosphorylation sites quantified larger
 than 10 was set as a criterion.
 
 <<find-enriched-pathways,tidy=T,eval=TRUE,cache=TRUE>>=
 genes<-row.names(pho_sites_count)[which(pho_sites_count>=10)]
-pho_KEGGresult<-find_enriched_pathway(genes,specis='hsa')
+pho_KEGGresult<-find_enriched_pathway(genes,species='hsa')
 pho_KEGGresult[[1]][,c(1,5)]
 @
 
@@ -187,7 +189,7 @@ pho_expr<-pho_expr[which(temp==0),]
 ## transform the expression difference into specific color
 col<-col_by_value(pho_expr,col=colorRampPalette(c('green','black','red'))(1024),range=c(-6,6))
 ## visualization by method 'bg'
-temp<-plot_pathway(pho_expr,type="bg",bg_col=col,text_col="white",magnify=1.2,specis='hsa',database_dir=system.file("extdata",package="KEGGprofile"),pathway_id="04110")
+temp<-plot_pathway(pho_expr,type="bg",bg_col=col,text_col="white",magnify=1.2,species='hsa',database_dir=system.file("extdata",package="KEGGprofile"),pathway_id="04110")
 @
 
 
@@ -209,7 +211,7 @@ working directory.
 <<Visualization-lines,tidy=T,fig.keep='none',eval=TRUE,cache=TRUE>>=
 ## transform the number of phosphorylation sites into specific color
 col<-col_by_value(pho_sites_count,col=colorRampPalette(c('white','khaki2'))(4),breaks=c(0,1,4,10,Inf)) ## visualization by method 'lines'
-temp<-plot_pathway(pro_pho_expr,type="lines",bg_col=col,line_col=c("brown1","seagreen3"),groups=c(rep("Proteome",6),rep("Phosphoproteome",6)),magnify=1.2,specis='hsa',database_dir=system.file("extdata",package="KEGGprofile"),pathway_id="04110",max_dist=5)
+temp<-plot_pathway(pro_pho_expr,type="lines",bg_col=col,line_col=c("brown1","seagreen3"),groups=c(rep("Proteome",6),rep("Phosphoproteome",6)),magnify=1.2,species='hsa',database_dir=system.file("extdata",package="KEGGprofile"),pathway_id="04110",max_dist=5)
 @
 
 

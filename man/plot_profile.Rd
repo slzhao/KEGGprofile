@@ -8,12 +8,12 @@ plot_profile(gene_expr, pathway_name, result_name = paste(pathway_name,
   bg_col = "white", text_col = "black", line_col, border_col = "grey",
   text_cex = 0.25, magnify = 1, type = c("lines", "bg"),
   pathway_min = 5, genes_kept = c("foldchange", "first", "random", "var",
-  "abs"), specis = "hsa", database_dir = getwd(), max_dist, lwd = 1.2)
+  "abs"), species = "hsa", database_dir = getwd(), max_dist, lwd = 1.2)
 }
 \arguments{
 \item{gene_expr}{the matrix for gene expression, row.names should be NCBI gene ID, such as 67040, 93683}
 
-\item{pathway_name}{the specis id and KEGG pathway id, such as 'hsa00010'}
+\item{pathway_name}{the species id and KEGG pathway id, such as 'hsa00010'}
 
 \item{KEGG_database}{the matrix returned by function parse_XMLfile, which contains genes in this pathway, and their names, locations etc}
 
@@ -43,7 +43,7 @@ plot_profile(gene_expr, pathway_name, result_name = paste(pathway_name,
 
 \item{lwd}{The line width when type='lines'}
 
-\item{specis}{the specis id in KEGG database, 'hsa' means human, 'mmu' means mouse, 'rno' means rat, etc}
+\item{species}{the species id in KEGG database, 'hsa' means human, 'mmu' means mouse, 'rno' means rat, etc}
 
 \item{database_dir}{the directory where the XML files and png files are located}
 }
@@ -60,7 +60,7 @@ And each sub-polygon has a specific background color to represent expression cha
 The dynamic changes of lines mean the profiles of genes in different time points.
 }
 \examples{
-XML2database<-parse_XMLfile(pathway_id="04110",specis="hsa",database_dir=system.file("extdata",package="KEGGprofile"))
+XML2database<-parse_XMLfile(pathway_id="04110",species="hsa",database_dir=system.file("extdata",package="KEGGprofile"))
 data(pro_pho_expr)
 temp<-plot_profile(pro_pho_expr,pathway_name="hsa04110",KEGG_database=XML2database,line_col=c("brown1","seagreen3"),groups=c(rep("Proteome ",6),rep("Phosphoproteome ",6)),magnify=1.2,database_dir=system.file("extdata",package="KEGGprofile"),max_dist=5)
 }
