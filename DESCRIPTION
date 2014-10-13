@@ -2,7 +2,7 @@ Package: KEGGprofile
 Type: Package
 Title: An annotation and visualization package for multi-types and
     multi-groups expression data in KEGG pathway
-Version: 1.8.0
+Version: 1.9.0
 Date: 2014-09-15
 Author: Shilin Zhao, Yu Shyr
 Maintainer: Shilin Zhao <shilin.zhao@vanderbilt.edu>
