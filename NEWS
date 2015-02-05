@@ -1,3 +1,14 @@
+CHANGES IN VERSION 1.9.1
+------------------------
+
+    o Fix a bug when pathway_min is set to 1. Thanks Norbert Auer.
+
+CHANGES IN VERSION 1.7.7
+------------------------
+
+NEW FEATURES
+
+    o New function: The pathway map without species information can be used as reference map with parameter speciesRefMap.
 
 CHANGES IN VERSION 1.7.6
 ------------------------
@@ -52,7 +63,7 @@ CHANGES IN VERSION 0.99.1
 
 NEW FEATURES
 
-    o Add the param lwd when type='lines' 
+    o Add the parameter lwd when type='lines' 
 
 CHANGES IN VERSION 0.99.0
 -------------------------

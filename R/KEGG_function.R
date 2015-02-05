@@ -41,10 +41,12 @@ download_KEGGfile<-function(pathway_id="00010",species='hsa',target_dir=getwd())
 	} else {
 		pathway_id<-paste(species,pathway_id,sep="")
 	}
+	pathway_id_map<-gsub(species,"",pathway_id)
 	for (x in 1:length(pathway_id)) {
 		print (paste("Downloading files: ",x,"/",length(pathway_id),sep=""))
 		download.file(paste("http://www.genome.jp/kegg-bin/download?entry=",pathway_id[x],'&format=kgml',sep=""),paste(target_dir,"/",pathway_id[x],".xml",sep=""))
 		download.file(paste("http://www.genome.jp/kegg/pathway/",species,"/",pathway_id[x],'.png',sep=""),paste(target_dir,"/",pathway_id[x],".png",sep=""),mode="wb")
+		download.file(paste("http://www.genome.jp/kegg/pathway/map/","map",pathway_id_map[x],'.png',sep=""),paste(target_dir,"/map",pathway_id_map[x],".png",sep=""),mode="wb")
 	}
 }
 
@@ -120,6 +122,7 @@ parse_XMLfile<-function(pathway_id,species,database_dir=getwd()) {
 ##' @param genes_kept methods used for choosing genes when several genes corresponding to one location in pathway map. Default is 'foldchange', which kept the gene with largest fold changes. 'first' kept the first gene. 'random' chosed gene random. 'var' kept the gene with largest variation. 'abs' kept the gene with largest absolute value
 ##' @param max_dist The expression changes that represented by the distance from the bottom to the top of gene rectangle, valid when type='lines'. This param is used to ensure the dynamic changes of lines in different gene polygon represent equal variation. It would be calculated from the maximum changes of genes in this pathway by default. If max_dist=NA, then the lines would be plotted from top to bottom in each gene rectangle
 ##' @param lwd The line width when type='lines' 
+##' @param speciesRefMap Logical, use the species specific figure as reference map. if set as FALSE, the reference pathway figure without species information will be used
 ##' @inheritParams parse_XMLfile
 ##' @importFrom png readPNG
 ##' @importFrom TeachingDemos subplot
@@ -128,7 +131,7 @@ parse_XMLfile<-function(pathway_id,species,database_dir=getwd()) {
 ##' @examples XML2database<-parse_XMLfile(pathway_id="04110",species="hsa",database_dir=system.file("extdata",package="KEGGprofile"))
 ##' data(pro_pho_expr)
 ##' temp<-plot_profile(pro_pho_expr,pathway_name="hsa04110",KEGG_database=XML2database,line_col=c("brown1","seagreen3"),groups=c(rep("Proteome ",6),rep("Phosphoproteome ",6)),magnify=1.2,database_dir=system.file("extdata",package="KEGGprofile"),max_dist=5)
-plot_profile<-function(gene_expr,pathway_name,result_name=paste(pathway_name,"_profile_",type,".png",sep=""),KEGG_database,groups,bg_col="white",text_col="black",line_col,border_col="grey",text_cex=0.25,magnify=1,type=c('lines','bg'),pathway_min=5,genes_kept=c('foldchange','first','random','var','abs'),species='hsa',database_dir=getwd(),max_dist,lwd=1.2) {
+plot_profile<-function(gene_expr,pathway_name,result_name=paste(pathway_name,"_profile_",type,".png",sep=""),KEGG_database,groups,bg_col="white",text_col="black",line_col,border_col="grey",text_cex=0.25,magnify=1,type=c('lines','bg'),pathway_min=5,genes_kept=c('foldchange','first','random','var','abs'),species='hsa',database_dir=getwd(),max_dist,lwd=1.2,speciesRefMap=TRUE) {
 	type <- if (missing(type))
 				"lines" else match.arg(type)
 	if (type == "lines" & ncol(gene_expr)<=1) {
@@ -164,7 +167,11 @@ plot_profile<-function(gene_expr,pathway_name,result_name=paste(pathway_name,"_p
 	#plot KEGG pic
 #	require(png)
 #	require(TeachingDemos)
-	img  <-  readPNG(paste(database_dir,"/",pathway_name,".png",sep=""))
+	if (speciesRefMap) {
+		img  <-  readPNG(paste(database_dir,"/",pathway_name,".png",sep=""))
+	} else {
+		img  <-  readPNG(paste(database_dir,"/",gsub("[a-zA-Z]+","map",pathway_name),".png",sep=""))
+	}
 	width<-ncol(img)
 	height<-nrow(img)
 	err_x_location<-1
@@ -178,7 +185,7 @@ plot_profile<-function(gene_expr,pathway_name,result_name=paste(pathway_name,"_p
 	
 	x=y=NULL #useless, just for R CMD check
 	#plot gene profile in KEGG pic
-	result_genes<-as.data.frame(KEGG_database[which(KEGG_database[,1] %in% genes),],stringsAsFactors=F)
+	result_genes<-as.data.frame(KEGG_database[which(KEGG_database[,1] %in% genes),,drop=FALSE],stringsAsFactors=F,drop=FALSE)
 	colnames(result_genes)<-c("genes","x","y","width","height","name")
 	result_genes<-transform(result_genes, x = as.numeric(x), y = as.numeric(y),width = as.numeric(width),height = as.numeric(height))
 	if (missing(max_dist) & type == "lines") {
@@ -302,11 +309,11 @@ plot_profile<-function(gene_expr,pathway_name,result_name=paste(pathway_name,"_p
 ##' testData2<-testData1[,4:6]-testData1[,1:3]
 ##' col<-col_by_value(testData2,col=colorRampPalette(c('green','black','red'))(1024),range=c(-2,2))
 ##' temp<-plot_pathway(testData2,type="bg",bg_col=col,text_col="white",magnify=1.2,species='hsa',database_dir=system.file("extdata",package="KEGGprofile"),pathway_id="00020")
-plot_pathway<-function(gene_expr,line_col,groups,pathway_id="00010",species="hsa",pathway_min=5,database_dir=getwd(),...) {
-	if ((!file.exists(paste(database_dir,"/",species,pathway_id,".xml",sep=""))) | (!file.exists(paste(database_dir,"/",species,pathway_id,".png",sep="")))) {download_KEGGfile(pathway_id=pathway_id,species=species,target_dir=database_dir)}
+plot_pathway<-function(gene_expr,line_col,groups,pathway_id="00010",species="hsa",pathway_min=5,database_dir=getwd(),speciesRefMap=TRUE,...) {
+	if ((!file.exists(paste(database_dir,"/",species,pathway_id,".xml",sep=""))) | (!file.exists(paste(database_dir,"/",species,pathway_id,".png",sep=""))) | (!file.exists(paste(database_dir,"/map",pathway_id,".png",sep="")))) {download_KEGGfile(pathway_id=pathway_id,species=species,target_dir=database_dir)}
 	XML2data<-parse_XMLfile(pathway_id=pathway_id,species=species,database_dir=database_dir)
 	if (is.null(XML2data)) {return()}
-	return_expr<-plot_profile(gene_expr=gene_expr,KEGG_database=XML2data,groups=groups,line_col=line_col,pathway_name=paste(species,pathway_id,sep=""),database_dir=database_dir,pathway_min=pathway_min,...)
+	return_expr<-plot_profile(gene_expr=gene_expr,KEGG_database=XML2data,groups=groups,line_col=line_col,pathway_name=paste(species,pathway_id,sep=""),database_dir=database_dir,pathway_min=pathway_min,speciesRefMap=speciesRefMap,...)
 	return(return_expr)
 }
 
