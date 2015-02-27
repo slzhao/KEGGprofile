@@ -2,7 +2,7 @@ Package: KEGGprofile
 Type: Package
 Title: An annotation and visualization package for multi-types and
     multi-groups expression data in KEGG pathway
-Version: 1.9.1
+Version: 1.9.2
 Date: 2015-02-04
 Author: Shilin Zhao, Yan Guo, Yu Shyr
 Maintainer: Shilin Zhao <shilin.zhao@vanderbilt.edu>
@@ -16,4 +16,4 @@ License: GPL (>= 2)
 LazyLoad: yes
 Imports:
     AnnotationDbi,png,TeachingDemos,XML,KEGG.db,KEGGREST,biomaRt
-biocViews: Pathways
+biocViews: Pathways, KEGG
