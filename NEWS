@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.9.3
+------------------------
+
+    o Fix a bug in example of convertId function, which was caused by update of BioMart database. Thanks Dan.
+
 CHANGES IN VERSION 1.9.1
 ------------------------
 

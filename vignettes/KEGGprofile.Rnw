@@ -106,7 +106,7 @@ with number of phosphorylation sites quantified for each gene.
 
 Here the NCBI gene IDs should be row.names of all the data.frame. If your expression data is not in NCBI gene IDs, you need to first convert it. We provided a function called 'convertId' to do it.
 
-<<convertIdExample, tidy=T,cache=TRUE>>=
+<<convertIdExample, tidy=T,cache=FALSE>>=
 example(convertId)
 @
 
