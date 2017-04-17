@@ -15,14 +15,14 @@
 ##' @examples temp<-cbind(rnorm(10),rnorm(10))
 ##' row.names(temp)<-c("Q04837","P0C0L4","P0C0L5","O75379","Q13068","A2MYD1","P60709","P30462","P30475","P30479")
 ##' colnames(temp)<-c("Exp1","Exp2")
-##' convertId(temp,filters="uniprot_swissprot",keepMultipleId=TRUE)
+##' convertId(temp,filters="uniprotswissprot",keepMultipleId=TRUE)
 ##' \dontrun{
 ##' temp<-cbind(rnorm(5000),rnorm(5000),rnorm(5000),rnorm(5000),rnorm(5000),rnorm(5000))
 ##' row.names(temp)<-1000:5999
 ##' colnames(temp)<-c("Control1","Control2","Control3","Treatment1","Treatment2","Treatment3")
 ##' convertId(temp,filters="entrezgene",attributes =c("entrezgene","uniprot_swissprot"),keepNoId=FALSE)
 ##' }
-convertId<-function(x,dataset="hsapiens_gene_ensembl",filters="uniprot_swissprot_accession",attributes =c(filters,"entrezgene"),genesKept=c('foldchange','first','random','var','abs'),keepNoId=T,keepMultipleId=F,verbose=F) {
+convertId<-function(x,dataset="hsapiens_gene_ensembl",filters="uniprotswissprot",attributes =c(filters,"entrezgene"),genesKept=c('foldchange','first','random','var','abs'),keepNoId=T,keepMultipleId=F,verbose=F) {
 #	if (! require("biomaRt")) {
 #		cat("biomaRt package is needed but not installed in this computer. Will install it from bioconductor.\n")
 #		flush.console()
@@ -39,6 +39,9 @@ convertId<-function(x,dataset="hsapiens_gene_ensembl",filters="uniprot_swissprot
 		cat("Now conectting with ensembl. Internet acess is needed and it may use 30 seconds.\n")
 		flush.console()
 	}
+	
+	#temp
+	#ensembl = useMart("ENSEMBL_MART_ENSEMBL",dataset="hsapiens_gene_ensembl", host = "jul2015.archive.ensembl.org")
 	ensembl = useMart("ensembl",dataset=dataset)
 	
 	oldId<-row.names(x)
