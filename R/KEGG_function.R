@@ -31,6 +31,7 @@ NULL
 ##' @param species the species id in KEGG database, 'hsa' means human, 'mmu' means mouse, 'rno' means rat, etc
 ##' @param target_dir the local directory where the downloaded files are saved
 ##' @importFrom KEGG.db KEGGPATHID2EXTID
+##' @importFrom RCurl getURL
 ##' @export
 ##' @examples download_KEGGfile(pathway_id="00010",species='hsa')
 download_KEGGfile<-function(pathway_id="00010",species='hsa',target_dir=getwd()) {
@@ -41,12 +42,21 @@ download_KEGGfile<-function(pathway_id="00010",species='hsa',target_dir=getwd())
 	} else {
 		pathway_id<-paste(species,pathway_id,sep="")
 	}
+	
+	downloadKeggFile<-function(pathway_id="00010",target_dir=getwd()) {
+		sourceUrl<-paste("http://www.genome.jp/kegg-bin/download?entry=",pathway_id,'&format=kgml',sep="")
+		targetFileName=paste(target_dir,"/",pathway_id,".xml",sep="")
+		fileContent<-getURL(sourceUrl, httpheader = c('Referer'='http://www.genome.jp/kegg-bin/show_pathway?org_name=hsa'))
+		writeLines(fileContent,targetFileName)
+	}
+	
 	pathway_id_map<-gsub(species,"",pathway_id)
 	for (x in 1:length(pathway_id)) {
 		print (paste("Downloading files: ",x,"/",length(pathway_id),sep=""))
-		download.file(paste("http://www.genome.jp/kegg-bin/download?entry=",pathway_id[x],'&format=kgml',sep=""),paste(target_dir,"/",pathway_id[x],".xml",sep=""))
-		download.file(paste("http://www.genome.jp/kegg/pathway/",species,"/",pathway_id[x],'.png',sep=""),paste(target_dir,"/",pathway_id[x],".png",sep=""),mode="wb")
-		download.file(paste("http://www.genome.jp/kegg/pathway/map/","map",pathway_id_map[x],'.png',sep=""),paste(target_dir,"/map",pathway_id_map[x],".png",sep=""),mode="wb")
+		try(downloadKeggFile(pathway_id[x]))
+#		download.file(paste("http://www.genome.jp/kegg-bin/download?entry=",pathway_id[x],'&format=kgml',sep=""),paste(target_dir,"/",pathway_id[x],".xml",sep=""))
+		try(download.file(paste("http://www.genome.jp/kegg/pathway/",species,"/",pathway_id[x],'.png',sep=""),paste(target_dir,"/",pathway_id[x],".png",sep=""),mode="wb"))
+		try(download.file(paste("http://www.genome.jp/kegg/pathway/map/","map",pathway_id_map[x],'.png',sep=""),paste(target_dir,"/map",pathway_id_map[x],".png",sep=""),mode="wb"))
 	}
 }
 
@@ -445,6 +455,7 @@ col_by_value<-function(x,col,range=NA,breaks=NA,showColorBar=T) {
 ##' @param returned_adjpvalue the minimum adjusted p value for enriched pathways
 ##' @param returned_genenumber the minimum number of annotated genes for enriched pathways
 ##' @param download_latest logical. Indicate if the function will download the latest pathway/gene link from KEGG website. As the KEGG.db package was not updated for a long time due to the KEGG policy change, we provided this parameter so that the users could get the latest KEGG database.
+##' @param refGene the names of genes used as reference. If not provided, all genes in KEGG database will be used.
 ##' @inheritParams download_KEGGfile
 ##' @importFrom KEGG.db KEGGPATHID2EXTID KEGGPATHID2NAME
 ##' @export
@@ -453,7 +464,7 @@ col_by_value<-function(x,col,range=NA,breaks=NA,showColorBar=T) {
 ##' #the 300 genes with most phospholation sites quantified
 ##' genes<-names(rev(sort(pho_sites_count[,1]))[1:300])
 ##' pho_KEGGresult<-find_enriched_pathway(genes,species='hsa')
-find_enriched_pathway<-function(gene,species="hsa",returned_pvalue=0.01,returned_adjpvalue=0.05,returned_genenumber=5,download_latest=FALSE) {
+find_enriched_pathway<-function(gene,species="hsa",returned_pvalue=0.01,returned_adjpvalue=0.05,returned_genenumber=5,download_latest=FALSE,refGene=NULL) {
 	if (download_latest) {
 		temp<-download_latest_pathway(species=species)
 		keggpathway2gene<-temp$keggpathway2gene
@@ -468,6 +479,9 @@ find_enriched_pathway<-function(gene,species="hsa",returned_pvalue=0.01,returned
 			keggpathway2gene<-temp$keggpathway2gene
 			pathway2name<-temp$pathway2name
 		}
+	}
+	if (!is.null(refGene)) {
+		keggpathway2gene<-lapply(keggpathway2gene,function(x) x[x %in% refGene])
 	}
 	
 	##map NEED gene to kegg result

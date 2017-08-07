@@ -6,7 +6,7 @@
 \usage{
 find_enriched_pathway(gene, species = "hsa", returned_pvalue = 0.01,
   returned_adjpvalue = 0.05, returned_genenumber = 5,
-  download_latest = FALSE)
+  download_latest = FALSE, refGene = NULL)
 }
 \arguments{
 \item{gene}{a numeric matrix}
@@ -20,6 +20,8 @@ find_enriched_pathway(gene, species = "hsa", returned_pvalue = 0.01,
 \item{returned_genenumber}{the minimum number of annotated genes for enriched pathways}
 
 \item{download_latest}{logical. Indicate if the function will download the latest pathway/gene link from KEGG website. As the KEGG.db package was not updated for a long time due to the KEGG policy change, we provided this parameter so that the users could get the latest KEGG database.}
+
+\item{refGene}{the names of genes used as reference. If not provided, all genes in KEGG database will be used.}
 }
 \value{
 a list with two parts \item{name stastic}{description a matirx containing the pathway IDs of enriched pathways, and their names, p values, number of annotated genes}\item{name detail}{description a list with the genes annotated for each pathway}
