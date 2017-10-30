@@ -31,7 +31,8 @@ NULL
 ##' @param species the species id in KEGG database, 'hsa' means human, 'mmu' means mouse, 'rno' means rat, etc
 ##' @param target_dir the local directory where the downloaded files are saved
 ##' @importFrom KEGG.db KEGGPATHID2EXTID
-##' @importFrom RCurl getURL
+##' @import RCurl
+##' @import utils
 ##' @export
 ##' @examples download_KEGGfile(pathway_id="00010",species='hsa')
 download_KEGGfile<-function(pathway_id="00010",species='hsa',target_dir=getwd()) {
@@ -136,6 +137,9 @@ parse_XMLfile<-function(pathway_id,species,database_dir=getwd()) {
 ##' @inheritParams parse_XMLfile
 ##' @importFrom png readPNG
 ##' @importFrom TeachingDemos subplot
+##' @import grDevices
+##' @import graphics
+##' @import stats
 ##' @export
 ##' @return a matrix containing genes maped in this pathway, and their names, expressions 
 ##' @examples XML2database<-parse_XMLfile(pathway_id="04110",species="hsa",database_dir=system.file("extdata",package="KEGGprofile"))
