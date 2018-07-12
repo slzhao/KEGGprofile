@@ -44,18 +44,10 @@ download_KEGGfile<-function(pathway_id="00010",species='hsa',target_dir=getwd())
 		pathway_id<-paste(species,pathway_id,sep="")
 	}
 	
-	downloadKeggFile<-function(pathway_id="00010",target_dir=getwd()) {
-		sourceUrl<-paste("http://www.genome.jp/kegg-bin/download?entry=",pathway_id,'&format=kgml',sep="")
-		targetFileName=paste(target_dir,"/",pathway_id,".xml",sep="")
-		fileContent<-getURL(sourceUrl, httpheader = c('Referer'='http://www.genome.jp/kegg-bin/show_pathway?org_name=hsa'))
-		writeLines(fileContent,targetFileName)
-	}
-	
 	pathway_id_map<-gsub(species,"",pathway_id)
 	for (x in 1:length(pathway_id)) {
 		print (paste("Downloading files: ",x,"/",length(pathway_id),sep=""))
-		try(downloadKeggFile(pathway_id[x]))
-#		download.file(paste("http://www.genome.jp/kegg-bin/download?entry=",pathway_id[x],'&format=kgml',sep=""),paste(target_dir,"/",pathway_id[x],".xml",sep=""))
+		try(download.file(paste("http://rest.kegg.jp/get/", pathway_id[x], "/kgml", sep=""),paste(target_dir,"/",pathway_id[x],".xml",sep=""),mode="wb"))
 		try(download.file(paste("http://www.genome.jp/kegg/pathway/",species,"/",pathway_id[x],'.png',sep=""),paste(target_dir,"/",pathway_id[x],".png",sep=""),mode="wb"))
 		try(download.file(paste("http://www.genome.jp/kegg/pathway/map/","map",pathway_id_map[x],'.png',sep=""),paste(target_dir,"/map",pathway_id_map[x],".png",sep=""),mode="wb"))
 	}
