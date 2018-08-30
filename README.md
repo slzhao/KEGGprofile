@@ -10,8 +10,9 @@ in different genes and samples. KEGGprofile also supports to display compound an
 # Download and install #
 You can install KEGGprofile package in R from [Bioconductor](http://bioconductor.org/packages/release/bioc/html/KEGGprofile.html) by following R codes:
 
-    source("http://bioconductor.org/biocLite.R")
-    biocLite("KEGGprofile")
+    if (!requireNamespace("BiocManager", quietly=TRUE))
+        install.packages("BiocManager")
+    BiocManager::install("KEGGprofile")
 
 # Document #
 KEGGprofile has a vignette in [Bioconductor](http://bioconductor.org/packages/release/bioc/vignettes/KEGGprofile/inst/doc/KEGGprofile.pdf) to demonstrate its application on high-throughput expression data.
