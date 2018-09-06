@@ -26,8 +26,9 @@ convertId<-function(x,dataset="hsapiens_gene_ensembl",filters="uniprotswissprot"
 #	if (! require("biomaRt")) {
 #		cat("biomaRt package is needed but not installed in this computer. Will install it from bioconductor.\n")
 #		flush.console()
-#		source("http://bioconductor.org/biocLite.R")
-#		biocLite("biomaRt")
+#		if (!requireNamespace("BiocManager", quietly=TRUE))
+    #		install.packages("BiocManager")
+#		BiocManager::install("biomaRt")
 #		if (!require(biomaRt)) {stop("Package biomaRt can't be installed")}
 #	}
 	if (missing(genesKept)) {
