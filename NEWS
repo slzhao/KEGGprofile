@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.25.1
+------------------------
+
+    o Fix bugs in download_KEGGfile function.
+
 CHANGES IN VERSION 1.19.3
 ------------------------
 
