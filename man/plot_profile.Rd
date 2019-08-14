@@ -6,10 +6,11 @@
 \usage{
 plot_profile(gene_expr, pathway_name, result_name = paste(pathway_name,
   "_profile_", type, ".png", sep = ""), KEGG_database, groups,
-  bg_col = "white", text_col = "black", line_col, border_col = "grey",
-  text_cex = 0.25, magnify = 1, type = c("lines", "bg"),
-  pathway_min = 5, genes_kept = c("foldchange", "first", "random", "var",
-  "abs"), species = "hsa", database_dir = getwd(), max_dist, lwd = 1.2,
+  bg_col = "white", text_col = "black", line_col,
+  border_col = "grey", text_cex = 0.25, magnify = 1,
+  type = c("lines", "bg"), pathway_min = 5,
+  genes_kept = c("foldchange", "first", "random", "var", "abs"),
+  species = "hsa", database_dir = getwd(), max_dist, lwd = 1.2,
   speciesRefMap = TRUE)
 }
 \arguments{
@@ -68,4 +69,3 @@ XML2database<-parse_XMLfile(pathway_id="04110",species="hsa",database_dir=system
 data(pro_pho_expr)
 temp<-plot_profile(pro_pho_expr,pathway_name="hsa04110",KEGG_database=XML2database,line_col=c("brown1","seagreen3"),groups=c(rep("Proteome ",6),rep("Phosphoproteome ",6)),magnify=1.2,database_dir=system.file("extdata",package="KEGGprofile"),max_dist=5)
 }
-

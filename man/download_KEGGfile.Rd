@@ -23,4 +23,3 @@ If pathway_id is set as 'all', all KEGG pathway ids in KEGG.db package will be u
 \examples{
 download_KEGGfile(pathway_id="00010",species='hsa')
 }
-

@@ -61,4 +61,3 @@ temp<-plot_pathway(testData2,type="bg",bg_col=col,text_col="white",magnify=1.2,s
 \seealso{
 \code{\link{download_KEGGfile}}, \code{\link{parse_XMLfile}}, \code{\link{plot_profile}}
 }
-

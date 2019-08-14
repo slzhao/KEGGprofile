@@ -31,4 +31,3 @@ if breaks not equal to NA, col must have the same length with breaks-1.
 data(pho_sites_count)
 col<-col_by_value(pho_sites_count,col=colorRampPalette(c('white','khaki2'))(4),breaks=c(0,1,4,10,Inf))
 }
-

@@ -31,4 +31,3 @@ genes<-row.names(pho_sites_count)[which(pho_sites_count>=10)]
 pho_KEGGresult<-find_enriched_pathway(genes,species='hsa')
 result<-plot_pathway_cor(gene_expr=pro_pho_expr,kegg_enriched_pathway=pho_KEGGresult)
 }
-

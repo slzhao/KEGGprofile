@@ -14,4 +14,3 @@ pho_sites_count
 \description{
 This data set is a data.frame with number of phosphorylation sites quantified for each gene in the analysis.
 }
-

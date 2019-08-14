@@ -15,4 +15,3 @@ pro_pho_expr
 This data set is from a previously published data of proteome and phosphoproteome analysis in different cell phase.
 The column 1-6 are proteome data and column 7-12 are phosphoproteome data in this data.frame. The 6 time points are G1, G1/S, Early S, Late S, G2, Mitosis.
 }
-

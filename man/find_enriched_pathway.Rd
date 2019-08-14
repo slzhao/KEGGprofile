@@ -38,4 +38,3 @@ data(pho_sites_count)
 genes<-names(rev(sort(pho_sites_count[,1]))[1:300])
 pho_KEGGresult<-find_enriched_pathway(genes,species='hsa')
 }
-

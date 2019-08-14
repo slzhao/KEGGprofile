@@ -45,9 +45,9 @@ download_KEGGfile<-function(pathway_id="00010",species='hsa',target_dir=getwd())
 	}
 	
 	downloadKeggFile<-function(pathway_id="hsa00010",species='hsa',target_dir=getwd()) {
-		sourceUrl<-paste("https://www.genome.jp/kegg-bin/download?entry=",pathway_id,'&format=kgml',sep="")
+		sourceUrl<-paste("https://www.kegg.jp/kegg-bin/download?entry=",pathway_id,'&format=kgml',sep="")
 		targetFileName=paste(target_dir,"/",pathway_id,".xml",sep="")
-		httpHeaderRefer=paste0("http://www.genome.jp/kegg-bin/show_pathway?org_name=",species)
+		httpHeaderRefer=paste0("http://www.kegg.jp/kegg-bin/show_pathway?org_name=",species)
 		fileContent<-getURL(sourceUrl, httpheader = c('Referer'=httpHeaderRefer))
 		writeLines(fileContent,targetFileName)
 	}

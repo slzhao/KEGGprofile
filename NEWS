@@ -1,3 +1,15 @@
+CHANGES IN VERSION 1.27.2
+------------------------
+
+    o Fix bugs in convertId function, which was caused by the updates of biomaRt package
+    
+CHANGES IN VERSION 1.27.1
+------------------------
+
+    o Fix bugs in download_KEGGfile function, which was caused by the updates of KEGG web site.
+    o New function: plot_pathway_overall function to plot gene expression in pathway level.
+    o Improvement for documents and examples.
+    
 CHANGES IN VERSION 1.25.1
 ------------------------
 

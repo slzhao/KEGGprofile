@@ -21,4 +21,3 @@ The function will downlaod the latest pathway gene link from KEGG website.
 \examples{
 \dontrun{download_latest_pathway(species="hsa")}
 }
-

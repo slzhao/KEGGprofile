@@ -25,4 +25,3 @@ This function will parse the KEGG XML (KGML) file. Then a matrix with genes in t
 \examples{
 XML2database<-parse_XMLfile(pathway_id="04110",species="hsa",database_dir=system.file("extdata",package="KEGGprofile"))
 }
-

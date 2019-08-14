@@ -5,9 +5,9 @@
 \title{convertId}
 \usage{
 convertId(x, dataset = "hsapiens_gene_ensembl",
-  filters = "uniprotswissprot", attributes = c(filters, "entrezgene"),
-  genesKept = c("foldchange", "first", "random", "var", "abs"),
-  keepNoId = T, keepMultipleId = F, verbose = F)
+  filters = "uniprotswissprot", attributes = c(filters,
+  "entrezgene_id"), genesKept = c("foldchange", "first", "random", "var",
+  "abs"), keepNoId = T, keepMultipleId = F, verbose = F)
 }
 \arguments{
 \item{x}{the expression data matrix.}
@@ -44,4 +44,3 @@ colnames(temp)<-c("Control1","Control2","Control3","Treatment1","Treatment2","Tr
 convertId(temp,filters="entrezgene",attributes =c("entrezgene","uniprot_swissprot"),keepNoId=FALSE)
 }
 }
-

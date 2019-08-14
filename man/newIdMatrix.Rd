@@ -28,4 +28,3 @@ row.names(temp)<-names(convertIdTable)
 colnames(temp)<-c("Exp1","Exp2")
 newIdMatrix(temp,genesKept="foldchange",convertIdTable)
 }
-
