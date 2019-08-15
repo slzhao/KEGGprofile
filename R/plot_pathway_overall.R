@@ -21,11 +21,12 @@
 plot_pathway_overall<-function(gene_values,species="hsa",pathwayNumInFigure=5,rankByVar=colnames(gene_values)[1]) {
   kegg_enriched_pathway=find_enriched_pathway(row.names(gene_values),species=species,returned_pvalue=1,returned_adjpvalue=1,returned_genenumber=5)
   names(kegg_enriched_pathway[[2]])=make.names(kegg_enriched_pathway[[1]]$Pathway_Name)
-  geneValuesInPathway<-lapply(kegg_enriched_pathway[[2]],function(x) gene_values[intersect(x,row.names(gene_values)),])
-  
-  geneValuesDiffPInPathway=sapply(geneValuesInPathway,function(x) {genesNotInPathway=setdiff(row.names(gene_values),row.names(x));pValue=rep(NA,ncol(x));for (i in 1:ncol(x)) {pValue[i]=wilcox.test(x[,i],gene_values[genesNotInPathway,i])$p.value};return(pValue)})
-  geneValuesDiffPInPathway=t(geneValuesDiffPInPathway)
-  colnames(geneValuesDiffPInPathway)=colnames(gene_values)
+  geneValuesInPathway<-lapply(kegg_enriched_pathway[[2]],function(x) gene_values[intersect(x,row.names(gene_values)),,drop=FALSE])
+
+  ##Genes in Pathway vs Genes out of pathway test. Not using them at this time  
+#  geneValuesDiffPInPathway=sapply(geneValuesInPathway,function(x) {genesNotInPathway=setdiff(row.names(gene_values),row.names(x));pValue=rep(NA,ncol(x));for (i in 1:ncol(x)) {pValue[i]=wilcox.test(x[,i],gene_values[genesNotInPathway,i])$p.value};return(pValue)})
+#  geneValuesDiffPInPathway=t(geneValuesDiffPInPathway)
+#  colnames(geneValuesDiffPInPathway)=colnames(gene_values)
   
   dataForPlot=NULL
   for (i in 1:length(geneValuesInPathway)) {
