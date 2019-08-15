@@ -134,7 +134,7 @@ newIdMatrix<-function(x,convertIdTable,genesKept=c("var","foldchange","abs","fir
 	}
 	testStat[is.na(testStat)]<--Inf #Some temp has a NA value if genesKept=="var" and only one sample has value
 	temp<-split(testStat,convertIdTable)
-	result<-x[unlist(sapply(temp, function(y) names(which.max(y)))),]
+	result<-x[unlist(sapply(temp, function(y) names(which.max(y)))),,drop=FALSE]
 	row.names(result)<-names(temp)
 	return(result)
 }
