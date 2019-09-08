@@ -41,6 +41,6 @@ convertId(temp,filters="uniprotswissprot",keepMultipleId=TRUE)
 temp<-cbind(rnorm(5000),rnorm(5000),rnorm(5000),rnorm(5000),rnorm(5000),rnorm(5000))
 row.names(temp)<-1000:5999
 colnames(temp)<-c("Control1","Control2","Control3","Treatment1","Treatment2","Treatment3")
-convertId(temp,filters="entrezgene",attributes =c("entrezgene","uniprot_swissprot"),keepNoId=FALSE)
+convertId(temp,filters="entrezgene_id",attributes =c("entrezgene_id","uniprotswissprot"),keepNoId=FALSE)
 }
 }

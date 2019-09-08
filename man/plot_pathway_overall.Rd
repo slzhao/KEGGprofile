@@ -4,15 +4,15 @@
 \alias{plot_pathway_overall}
 \title{plot_pathway_overall}
 \usage{
-plot_pathway_overall(gene_values, kegg_enriched_pathway, groups = NULL,
-  side = c("both", "pos", "neg"), alternative = NULL)
+plot_pathway_overall(gene_values, species = "hsa",
+  pathwayNumInFigure = 5, rankByVar = colnames(gene_values)[1])
 }
 \arguments{
 \item{gene_values}{A data.frame or matrix with gene ID as rownames. Each column represent gene value in one condition.}
 
-\item{kegg_enriched_pathway}{The returned value from find_enriched_pathway function, the enriched pathways.}
+\item{species}{the species id in KEGG database, 'hsa' means human, 'mmu' means mouse, 'rno' means rat, etc}
 
-\item{groups}{a character used to indicate expression values from different types of samples}
+\item{kegg_enriched_pathway}{The returned value from find_enriched_pathway function, the enriched pathways.}
 
 \item{side}{a character string specifying interested test directions, must be one of "both" (default), "pos" or "neg".}
 
@@ -29,7 +29,6 @@ The function will plot the correlation distributions for each enriched pathway (
 \examples{
 data(pro_pho_expr)
 data(pho_sites_count)
-genes<-row.names(pho_sites_count)[which(pho_sites_count>=10)]
-pho_KEGGresult<-find_enriched_pathway(genes,species='hsa',returned_genenumber=3)
-plot_pathway_overall(gene_values=pro_pho_expr[,1:3],kegg_enriched_pathway=pho_KEGGresult)
+gene_values<-pro_pho_expr[row.names(pho_sites_count)[which(pho_sites_count>=10)],]
+plot_pathway_overall(gene_values=gene_values[,1:3])
 }
