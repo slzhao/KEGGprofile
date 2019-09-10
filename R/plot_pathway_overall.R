@@ -8,9 +8,8 @@
 ##' 
 ##' @inheritParams plot_profile
 ##' @param gene_values A data.frame or matrix with gene ID as rownames. Each column represent gene value in one condition.
-##' @param kegg_enriched_pathway The returned value from find_enriched_pathway function, the enriched pathways. 
-##' @param side a character string specifying interested test directions, must be one of "both" (default), "pos" or "neg".
-##' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less". You can specify just the initial letter.
+##' @param pathwayNumInFigure a integer specifying max number of (top) pathways in each direction in the boxplot.
+##' @param rankByVar a character string specifying variable (sample) name by which to rank the boxplot.
 ##' @importFrom reshape2 melt
 ##' @export
 ##' @return p values for Wilcoxon tests in each pathway
@@ -32,10 +31,10 @@ plot_pathway_overall<-function(gene_values,species="hsa",pathwayNumInFigure=5,ra
   for (i in 1:length(geneValuesInPathway)) {
     dataForPlot=rbind(dataForPlot,cbind(geneValuesInPathway[[i]],Pathway=names(geneValuesInPathway)[i]))
   }
-  dataForPlot=reshape2::melt(dataForPlot, id.vars="Pathway")
+  dataForPlot=reshape2::melt(dataForPlot, id.vars="Pathway",variable.name = "Sample",value.name = "value")
   
   #order by median value of first variable (column)
-  temp=dataForPlot[which(dataForPlot$variable==rankByVar),]
+  temp=dataForPlot[which(dataForPlot[,"Sample"]==rankByVar),]
   pathwayOrder=tapply(temp$value,temp$Pathway,median,na.rm=T)
   pathwayOrder=names(pathwayOrder)[order(pathwayOrder)]
   if (length(pathwayOrder)>pathwayNumInFigure*2) {
@@ -45,7 +44,7 @@ plot_pathway_overall<-function(gene_values,species="hsa",pathwayNumInFigure=5,ra
   dataForPlot=dataForPlot[which(dataForPlot$Pathway %in% pathwayOrder),]
   dataForPlot$Pathway=factor(dataForPlot$Pathway,levels = pathwayOrder)
   
-  p=ggplot(dataForPlot,aes(x=Pathway,y=value))+geom_boxplot(aes(colour=variable))
+  p=ggplot(dataForPlot,aes_string(x="Pathway",y="value"))+geom_boxplot(aes_string(colour="Sample"))
   
   return(p+ coord_flip()+theme(axis.text.x = element_text(angle = 90, hjust = 1)))
 }

@@ -23,5 +23,6 @@ The function parses KEGG XML (KGML) files
 This function will parse the KEGG XML (KGML) file. Then a matrix with genes in this pathway and related infomations will be returned. This matrix can be used for plot the expression profiles on the pathway figure.
 }
 \examples{
-XML2database<-parse_XMLfile(pathway_id="04110",species="hsa",database_dir=system.file("extdata",package="KEGGprofile"))
+XML2database<-parse_XMLfile(pathway_id="04110",species="hsa",
+database_dir=system.file("extdata",package="KEGGprofile"))
 }

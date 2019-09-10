@@ -34,13 +34,15 @@ A function to convert ID based on the biomaRt package..
 }
 \examples{
 temp<-cbind(rnorm(10),rnorm(10))
-row.names(temp)<-c("Q04837","P0C0L4","P0C0L5","O75379","Q13068","A2MYD1","P60709","P30462","P30475","P30479")
+row.names(temp)<-c("Q04837","P0C0L4","P0C0L5","O75379","Q13068","A2MYD1",
+"P60709","P30462","P30475","P30479")
 colnames(temp)<-c("Exp1","Exp2")
 convertId(temp,filters="uniprotswissprot",keepMultipleId=TRUE)
 \dontrun{
 temp<-cbind(rnorm(5000),rnorm(5000),rnorm(5000),rnorm(5000),rnorm(5000),rnorm(5000))
 row.names(temp)<-1000:5999
 colnames(temp)<-c("Control1","Control2","Control3","Treatment1","Treatment2","Treatment3")
-convertId(temp,filters="entrezgene_id",attributes =c("entrezgene_id","uniprotswissprot"),keepNoId=FALSE)
+convertId(temp,filters="entrezgene_id",attributes =c("entrezgene_id","uniprotswissprot"),
+keepNoId=FALSE)
 }
 }

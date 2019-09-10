@@ -73,7 +73,8 @@ download_KEGGfile<-function(pathway_id="00010",species='hsa',target_dir=getwd())
 ##' @importFrom XML xmlTreeParse getNodeSet xmlGetAttr
 ##' @export
 ##' @return a matrix containing genes in this pathway, and their names, locations etc, which could be used in the function plot_profile as param KEGG_database
-##' @examples XML2database<-parse_XMLfile(pathway_id="04110",species="hsa",database_dir=system.file("extdata",package="KEGGprofile"))
+##' @examples XML2database<-parse_XMLfile(pathway_id="04110",species="hsa",
+##' database_dir=system.file("extdata",package="KEGGprofile"))
 parse_XMLfile<-function(pathway_id,species,database_dir=getwd()) {
 	#get pathway gene and their location in the pic
 	#except three global maps
@@ -143,9 +144,12 @@ parse_XMLfile<-function(pathway_id,species,database_dir=getwd()) {
 ##' @import stats
 ##' @export
 ##' @return a matrix containing genes maped in this pathway, and their names, expressions 
-##' @examples XML2database<-parse_XMLfile(pathway_id="04110",species="hsa",database_dir=system.file("extdata",package="KEGGprofile"))
+##' @examples XML2database<-parse_XMLfile(pathway_id="04110",species="hsa",
+##' database_dir=system.file("extdata",package="KEGGprofile"))
 ##' data(pro_pho_expr)
-##' temp<-plot_profile(pro_pho_expr,pathway_name="hsa04110",KEGG_database=XML2database,line_col=c("brown1","seagreen3"),groups=c(rep("Proteome ",6),rep("Phosphoproteome ",6)),magnify=1.2,database_dir=system.file("extdata",package="KEGGprofile"),max_dist=5)
+##' temp<-plot_profile(pro_pho_expr,pathway_name="hsa04110",KEGG_database=XML2database,
+##' line_col=c("brown1","seagreen3"),groups=c(rep("Proteome ",6),rep("Phosphoproteome ",6)),
+##' magnify=1.2,database_dir=system.file("extdata",package="KEGGprofile"),max_dist=5)
 plot_profile<-function(gene_expr,pathway_name,result_name=paste(pathway_name,"_profile_",type,".png",sep=""),KEGG_database,groups,bg_col="white",text_col="black",line_col,border_col="grey",text_cex=0.25,magnify=1,type=c('lines','bg'),pathway_min=5,genes_kept=c('foldchange','first','random','var','abs'),species='hsa',database_dir=getwd(),max_dist,lwd=1.2,speciesRefMap=TRUE) {
 	type <- if (missing(type))
 				"lines" else match.arg(type)
@@ -307,23 +311,30 @@ plot_profile<-function(gene_expr,pathway_name,result_name=paste(pathway_name,"_p
 ##' @examples data(pro_pho_expr)
 ##' data(pho_sites_count)
 ##' #type='lines'
-##' col<-col_by_value(pho_sites_count,col=colorRampPalette(c('white','khaki2'))(4),breaks=c(0,1,4,10,Inf))
-##' temp<-plot_pathway(pro_pho_expr,bg_col=col,line_col=c("brown1","seagreen3"),groups=c(rep("Proteome ",6),rep("Phosphoproteome ",6)),magnify=1.2,species='hsa',database_dir=system.file("extdata",package="KEGGprofile"),pathway_id="04110",max_dist=5)
+##' col<-col_by_value(pho_sites_count,col=colorRampPalette(c('white','khaki2'))(4),
+##' breaks=c(0,1,4,10,Inf))
+##' temp<-plot_pathway(pro_pho_expr,bg_col=col,line_col=c("brown1","seagreen3"),
+##' groups=c(rep("Proteome ",6),rep("Phosphoproteome ",6)),magnify=1.2,species='hsa',
+##' database_dir=system.file("extdata",package="KEGGprofile"),pathway_id="04110",max_dist=5)
 ##' #type='bg'
 ##' pho_expr<-pro_pho_expr[,7:12]
 ##' temp<-apply(pho_expr,1,function(x) length(which(is.na(x))))
 ##' pho_expr<-pho_expr[which(temp==0),]
 ##' col<-col_by_value(pho_expr,col=colorRampPalette(c('green','black','red'))(1024),range=c(-6,6))
-##' temp<-plot_pathway(pho_expr,type="bg",bg_col=col,text_col="white",magnify=1.2,species='hsa',database_dir=system.file("extdata",package="KEGGprofile"),pathway_id="04110")
+##' temp<-plot_pathway(pho_expr,type="bg",bg_col=col,text_col="white",magnify=1.2,species='hsa',
+##' database_dir=system.file("extdata",package="KEGGprofile"),pathway_id="04110")
 ##' #Compound and gene data
 ##' set.seed(124)
 ##' testData1<-rbind(rnorm(6),rnorm(6),rnorm(6),rnorm(6),rnorm(6),rnorm(6),rnorm(6),rnorm(6))
 ##' row.names(testData1)<-c("4967","55753","1743","8802","47","50","cpd:C15972","cpd:C16255")
 ##' colnames(testData1)<-c("Control0","Control2","Control5","Sample0","Sample2","Sample5")
-##' temp<-plot_pathway(testData1,type="lines",line_col=c("brown1","seagreen3"),groups=c(rep("Control",3),rep("Sample",3)),magnify=1.2,species='hsa',database_dir=system.file("extdata",package="KEGGprofile"),pathway_id="00020",max_dist=2)
+##' temp<-plot_pathway(testData1,type="lines",line_col=c("brown1","seagreen3"),
+##' groups=c(rep("Control",3),rep("Sample",3)),magnify=1.2,species='hsa',
+##' database_dir=system.file("extdata",package="KEGGprofile"),pathway_id="00020",max_dist=2)
 ##' testData2<-testData1[,4:6]-testData1[,1:3]
 ##' col<-col_by_value(testData2,col=colorRampPalette(c('green','black','red'))(1024),range=c(-2,2))
-##' temp<-plot_pathway(testData2,type="bg",bg_col=col,text_col="white",magnify=1.2,species='hsa',database_dir=system.file("extdata",package="KEGGprofile"),pathway_id="00020")
+##' temp<-plot_pathway(testData2,type="bg",bg_col=col,text_col="white",magnify=1.2,species='hsa',
+##' database_dir=system.file("extdata",package="KEGGprofile"),pathway_id="00020")
 plot_pathway<-function(gene_expr,line_col,groups,pathway_id="00010",species="hsa",pathway_min=5,database_dir=getwd(),speciesRefMap=TRUE,...) {
 	if ((!file.exists(paste(database_dir,"/",species,pathway_id,".xml",sep=""))) | (!file.exists(paste(database_dir,"/",species,pathway_id,".png",sep=""))) | (!file.exists(paste(database_dir,"/map",pathway_id,".png",sep="")))) {download_KEGGfile(pathway_id=pathway_id,species=species,target_dir=database_dir)}
 	XML2data<-parse_XMLfile(pathway_id=pathway_id,species=species,database_dir=database_dir)
@@ -417,7 +428,8 @@ pieGlyph2<-function (x, xpos, ypos, labels = names(x), edges = 200, radius = 0.8
 ##' @export
 ##' @return a matrix equal to x, but the values were instead by colors.
 ##' @examples data(pho_sites_count)
-##' col<-col_by_value(pho_sites_count,col=colorRampPalette(c('white','khaki2'))(4),breaks=c(0,1,4,10,Inf))
+##' col<-col_by_value(pho_sites_count,col=colorRampPalette(c('white','khaki2'))(4),
+##' breaks=c(0,1,4,10,Inf))
 col_by_value<-function(x,col,range=NA,breaks=NA,showColorBar=T) {
 	if (is.na(range[1])) {} else {
 		x[x<range[1]]<-range[1]

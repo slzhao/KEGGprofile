@@ -40,23 +40,30 @@ At last the plot_profile function would be used to generate the pathway map.
 data(pro_pho_expr)
 data(pho_sites_count)
 #type='lines'
-col<-col_by_value(pho_sites_count,col=colorRampPalette(c('white','khaki2'))(4),breaks=c(0,1,4,10,Inf))
-temp<-plot_pathway(pro_pho_expr,bg_col=col,line_col=c("brown1","seagreen3"),groups=c(rep("Proteome ",6),rep("Phosphoproteome ",6)),magnify=1.2,species='hsa',database_dir=system.file("extdata",package="KEGGprofile"),pathway_id="04110",max_dist=5)
+col<-col_by_value(pho_sites_count,col=colorRampPalette(c('white','khaki2'))(4),
+breaks=c(0,1,4,10,Inf))
+temp<-plot_pathway(pro_pho_expr,bg_col=col,line_col=c("brown1","seagreen3"),
+groups=c(rep("Proteome ",6),rep("Phosphoproteome ",6)),magnify=1.2,species='hsa',
+database_dir=system.file("extdata",package="KEGGprofile"),pathway_id="04110",max_dist=5)
 #type='bg'
 pho_expr<-pro_pho_expr[,7:12]
 temp<-apply(pho_expr,1,function(x) length(which(is.na(x))))
 pho_expr<-pho_expr[which(temp==0),]
 col<-col_by_value(pho_expr,col=colorRampPalette(c('green','black','red'))(1024),range=c(-6,6))
-temp<-plot_pathway(pho_expr,type="bg",bg_col=col,text_col="white",magnify=1.2,species='hsa',database_dir=system.file("extdata",package="KEGGprofile"),pathway_id="04110")
+temp<-plot_pathway(pho_expr,type="bg",bg_col=col,text_col="white",magnify=1.2,species='hsa',
+database_dir=system.file("extdata",package="KEGGprofile"),pathway_id="04110")
 #Compound and gene data
 set.seed(124)
 testData1<-rbind(rnorm(6),rnorm(6),rnorm(6),rnorm(6),rnorm(6),rnorm(6),rnorm(6),rnorm(6))
 row.names(testData1)<-c("4967","55753","1743","8802","47","50","cpd:C15972","cpd:C16255")
 colnames(testData1)<-c("Control0","Control2","Control5","Sample0","Sample2","Sample5")
-temp<-plot_pathway(testData1,type="lines",line_col=c("brown1","seagreen3"),groups=c(rep("Control",3),rep("Sample",3)),magnify=1.2,species='hsa',database_dir=system.file("extdata",package="KEGGprofile"),pathway_id="00020",max_dist=2)
+temp<-plot_pathway(testData1,type="lines",line_col=c("brown1","seagreen3"),
+groups=c(rep("Control",3),rep("Sample",3)),magnify=1.2,species='hsa',
+database_dir=system.file("extdata",package="KEGGprofile"),pathway_id="00020",max_dist=2)
 testData2<-testData1[,4:6]-testData1[,1:3]
 col<-col_by_value(testData2,col=colorRampPalette(c('green','black','red'))(1024),range=c(-2,2))
-temp<-plot_pathway(testData2,type="bg",bg_col=col,text_col="white",magnify=1.2,species='hsa',database_dir=system.file("extdata",package="KEGGprofile"),pathway_id="00020")
+temp<-plot_pathway(testData2,type="bg",bg_col=col,text_col="white",magnify=1.2,species='hsa',
+database_dir=system.file("extdata",package="KEGGprofile"),pathway_id="00020")
 }
 \seealso{
 \code{\link{download_KEGGfile}}, \code{\link{parse_XMLfile}}, \code{\link{plot_profile}}

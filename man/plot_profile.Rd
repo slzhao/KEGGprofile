@@ -65,7 +65,10 @@ And each sub-polygon has a specific background color to represent expression cha
 The dynamic changes of lines mean the profiles of genes in different time points.
 }
 \examples{
-XML2database<-parse_XMLfile(pathway_id="04110",species="hsa",database_dir=system.file("extdata",package="KEGGprofile"))
+XML2database<-parse_XMLfile(pathway_id="04110",species="hsa",
+database_dir=system.file("extdata",package="KEGGprofile"))
 data(pro_pho_expr)
-temp<-plot_profile(pro_pho_expr,pathway_name="hsa04110",KEGG_database=XML2database,line_col=c("brown1","seagreen3"),groups=c(rep("Proteome ",6),rep("Phosphoproteome ",6)),magnify=1.2,database_dir=system.file("extdata",package="KEGGprofile"),max_dist=5)
+temp<-plot_profile(pro_pho_expr,pathway_name="hsa04110",KEGG_database=XML2database,
+line_col=c("brown1","seagreen3"),groups=c(rep("Proteome ",6),rep("Phosphoproteome ",6)),
+magnify=1.2,database_dir=system.file("extdata",package="KEGGprofile"),max_dist=5)
 }

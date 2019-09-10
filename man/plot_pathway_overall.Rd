@@ -12,11 +12,9 @@ plot_pathway_overall(gene_values, species = "hsa",
 
 \item{species}{the species id in KEGG database, 'hsa' means human, 'mmu' means mouse, 'rno' means rat, etc}
 
-\item{kegg_enriched_pathway}{The returned value from find_enriched_pathway function, the enriched pathways.}
+\item{pathwayNumInFigure}{a integer specifying max number of (top) pathways in each direction in the boxplot.}
 
-\item{side}{a character string specifying interested test directions, must be one of "both" (default), "pos" or "neg".}
-
-\item{alternative}{a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less". You can specify just the initial letter.}
+\item{rankByVar}{a character string specifying variable (sample) name by which to rank the boxplot.}
 }
 \value{
 p values for Wilcoxon tests in each pathway
