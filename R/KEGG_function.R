@@ -222,9 +222,9 @@ plot_profile<-function(gene_expr,pathway_name,result_name=paste(pathway_name,"_p
 			} else if (genes_kept=="random") {
 				ChosedGene<-sample(temp[[xx]][,1],1)
 			} else if (genes_kept=="var") {
-				ChosedGene<-temp[[xx]][which.max(apply(data.frame(gene_expr[temp[[xx]][,1],]),1,var)),1]
+				ChosedGene<-temp[[xx]][which.max(apply(data.frame(gene_expr[temp[[xx]][,1],]),1,function(x) var(x,na.rm=T))),1]
 			} else if (genes_kept=="abs") {
-				ChosedGene<-temp[[xx]][which.max(apply(data.frame(gene_expr[temp[[xx]][,1],]),1,function(x) max(abs(x)))),1]
+				ChosedGene<-temp[[xx]][which.max(apply(data.frame(gene_expr[temp[[xx]][,1],]),1,function(x) max(abs(x),na.rm=T))),1]
 			}
 			ChosedGene<-temp[[xx]][which(temp[[xx]][,1]==ChosedGene),]
 		} else {ChosedGene<-temp[[xx]]}
